@@ -71,8 +71,14 @@ print ("Day".ljust(15) + "Outlook".ljust(15) + "Temperature".ljust(15) + "Humidi
 #-->predicted = clf.predict_proba([[3, 1, 2, 1]])[0]
 for i, instance in enumerate(db_test):
     predicted = clf.predict_proba([db_test_num[i]])[0]
-    if predicted[0] >= 0.75 or predicted[1] >= 0.75:
-        predicted_class = "Yes" if predicted[0] > 0.75 else "No"
-        print(
-            str(instance[0]).ljust(15) + str(instance[1]).ljust(15) + str(instance[2]).ljust(15) + str(instance[3]).ljust(15) + str(instance[4]).ljust(15) + \
-            predicted_class.ljust(15) + str(predicted[0]).ljust(15))
+    if predicted[0] >= 0.75:
+        predicted_class = "Yes"
+        confidence = predicted[0]
+    elif predicted[1] >= 0.75:
+        predicted_class = "No"
+        confidence = predicted[1]
+    else:
+        continue
+    print(
+        str(instance[0]).ljust(15) + str(instance[1]).ljust(15) + str(instance[2]).ljust(15) + str(instance[3]).ljust(15) + str(instance[4]).ljust(15) + \
+        predicted_class.ljust(15) + str(confidence).ljust(15))
